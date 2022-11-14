@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from "@emotion/styled";
 import { DevTools, loadServer } from "jira-dev-tool";
-import {Typography} from 'antd'
+import {Button, Typography} from 'antd'
 export const Row = styled.div<{
   gap?: number|boolean,
   between?: boolean,
@@ -32,3 +32,6 @@ export const FullPageErrorFallback = ({ error }: { error: Error | null }) => (
   </FullPage>
 );
 
+export const  ButtonNoPadding  = styled(Button)`
+  padding: 0
+`
