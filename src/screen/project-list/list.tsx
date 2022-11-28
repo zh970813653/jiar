@@ -6,6 +6,11 @@ import { Link } from "react-router-dom";
 import { Pin } from "components/pin";
 import { useEditProject } from "utils/project";
 import { ButtonNoPadding } from "components/lib";
+import { useDispatch } from "react-redux";
+import {
+  projectListSlice,
+  projectsListActions,
+} from "../../store/project-list.slice";
 interface Project {
   id: number;
   name: string;
@@ -18,11 +23,11 @@ interface ListProps extends TableProps<Project> {
   // list: Project[];
   users: User[];
   refresh: () => void;
-  setProjectModalOpen: (isOpen: boolean) => void
 }
 // type PropsType = Omit<ListProps,'users'>
 export const List = ({ users, ...props }: ListProps) => {
   const { mutate } = useEditProject();
+  const dispatch = useDispatch();
   const pinProject = (id: number) => async (pin: boolean) => {
     await mutate({ id, pin });
     await props.refresh();
@@ -83,12 +88,18 @@ export const List = ({ users, ...props }: ListProps) => {
               <Dropdown
                 overlay={
                   <Menu>
-                    <Menu.Item  key={"edit"}>
-                    <ButtonNoPadding type={"link"} onClick={()=>props.setProjectModalOpen}>编辑</ButtonNoPadding>
+                    <Menu.Item key={"edit"}>
+                      <ButtonNoPadding
+                        type={"link"}
+                        onClick={() =>
+                          dispatch(projectsListActions.openPeojectModal())
+                        }
+                      >
+                        编辑
+                      </ButtonNoPadding>
                     </Menu.Item>
                   </Menu>
                 }
-                
               >
                 <ButtonNoPadding type={"link"}>...</ButtonNoPadding>
               </Dropdown>

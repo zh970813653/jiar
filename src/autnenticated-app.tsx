@@ -10,38 +10,44 @@ import { ProjectScreen } from "screen/project/index";
 import { Dropdown, Menu, Button } from "antd";
 import { Navigate, Route, Routes, BrowserRouter } from "react-router-dom";
 import { resetRouter } from "utils";
-import {ButtonNoPadding} from './components/lib'
-import {ProjectPopover} from "./components/projects-popover"
+import { ButtonNoPadding } from "./components/lib";
+import { ProjectPopover } from "./components/projects-popover";
+import { ProjectModal } from "screen/project-list/project-modal";
 export const AutnenticatedApp = () => {
-  const [projectModalOpen,setProjectModalOpen] = useState(false)
+  const [projectModalOpen, setProjectModalOpen] = useState(false);
   return (
     <Container>
-      <PageHeader setProjectModalOpen={setProjectModalOpen} />
+      <PageHeader />
       <Main>
         <BrowserRouter>
           <Routes>
             <Route index element={<Navigate to={"projects"} />}></Route>
-            <Route path={"/projects"} element={<ProjectListScreen setProjectModalOpen={setProjectModalOpen} />} />
+            <Route path={"/projects"} element={<ProjectListScreen />} />
             <Route
               path={"/projects/:projectId/*"}
               element={<ProjectScreen />}
             />
           </Routes>
         </BrowserRouter>
+        <ProjectModal></ProjectModal>
       </Main>
     </Container>
   );
 };
 
-const PageHeader = (props: {setProjectModalOpen:(isOpen: boolean) => void}) => {
+const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
-        <ButtonNoPadding style={{padding:0}} type="link" onClick={resetRouter}>
+        <ButtonNoPadding
+          style={{ padding: 0 }}
+          type="link"
+          onClick={resetRouter}
+        >
           <SoftwareLogo width={"18rem"} color={"red"} />
         </ButtonNoPadding>
         {/* <h3 css={{ margin: "0 1rem" }}>项目</h3> */}
-        <ProjectPopover setProjectModalOpen={props.setProjectModalOpen}></ProjectPopover>
+        <ProjectPopover></ProjectPopover>
         <span>用户</span>
       </HeaderLeft>
       <HeaderRight>
@@ -68,9 +74,6 @@ const User = () => {
   );
 };
 
-
-
-
 const Container = styled.div`
   display: grid;
   grid-template-rows: 6rem 1fr 6rem;
@@ -82,12 +85,8 @@ const Header = styled(Row)`
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.1);
 `;
 
-
-
 const HeaderLeft = styled(Row)``;
 
-
 const HeaderRight = styled.div``;
-
 
 const Main = styled.div``;
